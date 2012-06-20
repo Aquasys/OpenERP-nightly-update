@@ -1,0 +1,4 @@
+You will need to run this script as root.
+
+Allows to download the latest nightly version of openerp and install it over the previous one.
+Change the addons_directory to fit your setup.

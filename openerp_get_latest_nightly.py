@@ -43,7 +43,7 @@ def copy_addons(nightly_directory, addons_directory):
     """
 
     print "Copying addons directory..."
-    
+
     cp_cmd = "/bin/cp -rf " + nightly_directory + " " + addons_directory
     os.system(cp_cmd)
 
@@ -62,19 +62,32 @@ def restart_openerp():
     """
     Restarts the openerp service
     """
+
     print "Restarting OpenERP..."
     os.system('service openerp-server restart')
+
+
+def cleanup():
+    """
+    Removes the tar and the extracted folder
+    """
+
+    print "Cleaning up..."
+    os.system('rm openerp-6.1-latest.tar.gz')
+    os.system('rm -rf openerp-6.1-*/')
 
 
 
 if __name__ == "__main__":
 
-    #to modify to fit the addons path
+    #modify to fit the addons path
     addons_directory = "/opt/openerp/server/openerp/addons/"
+    
     nightly_directory = "openerp-6.1-*/openerp/addons/"
 
-    #download_latest_nightly()
+    download_latest_nightly()
     untar_archive()
     copy_addons(nightly_directory, addons_directory)
     chown_addons(addons_directory)
+    cleanup()
     restart_openerp()

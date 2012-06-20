@@ -43,21 +43,9 @@ def copy_addons(nightly_directory, addons_directory):
     """
 
     print "Copying addons directory..."
-
-    for source_dir, dirs, files in os.walk(nightly_directory):
-        destination_dir = source_dir.replace(nightly_directory, addons_directory)
-
-        if not os.path.exists(destination_dir):
-            os.mkdir(destination_dir)
-
-        for _file in files:
-            source_file = os.path.join(source_dir, _file)
-            destination_file = os.path.join(destination_dir, _file)
-
-            if os.path.exists(destination_file):
-                os.remove(destination_file)
-
-            shutil.move(source_file, destination_dir)
+    
+    cp_cmd = "/bin/cp -rf " + nightly_directory + " " + addons_directory
+    os.system(cp_cmd)
 
 
 def chown_addons(addons_directory):
@@ -82,11 +70,11 @@ def restart_openerp():
 if __name__ == "__main__":
 
     #to modify to fit the addons path
-    addons_directory = "/home/vincent/openerp/openerp/openerp/addons/"
-    nightly_directory = "openerp-nightly/openerp/addons/"
+    addons_directory = "/opt/openerp/server/openerp/addons/"
+    nightly_directory = "openerp-6.1-*/openerp/addons/"
 
-    download_latest_nightly()
+    #download_latest_nightly()
     untar_archive()
     copy_addons(nightly_directory, addons_directory)
-    chown_addons()
+    chown_addons(addons_directory)
     restart_openerp()
